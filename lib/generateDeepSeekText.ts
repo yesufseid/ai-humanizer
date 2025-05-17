@@ -19,5 +19,6 @@ export async function generateDeepSeekText(prompt: string): Promise<string> {
 });
 
   const data = await res.json();
-  return data.choices[0].message.content;
+    console.log(data);
+    return data.choices[0].message.content;
 }

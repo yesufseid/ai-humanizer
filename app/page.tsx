@@ -141,7 +141,7 @@ export default function Home() {
                     <Label htmlFor="topic">Enter Sample writing style</Label>
                     <Textarea
                       id="topic"
-                      placeholder="Paste your AI-generated text here..."
+                      placeholder="please share as your writing style  here..."
                       value={topic}
                       onChange={(e) => setTopic(e.target.value)}
                     />

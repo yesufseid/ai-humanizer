@@ -1,15 +1,22 @@
+
+
 export async function generateDeepSeekText(prompt: string): Promise<string> {
-  const res = await fetch("https://api.deepseek.com/v1/chat/completions", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${process.env.DEEPSEEK_API_KEY}`,
-    },
-    body: JSON.stringify({
-      model: "deepseek-chat",
-      messages: [{ role: "user", content: prompt }],
-    }),
-  });
+  const res = await fetch("https://openrouter.ai/api/v1/chat/completions", {
+  method: "POST",
+  headers: {
+    "Authorization": `Bearer ${process.env.DEEPSEEK_API_KEY}`,
+    "Content-Type": "application/json"
+  },
+  body: JSON.stringify({
+    "model": "deepseek/deepseek-r1:free",
+    "messages": [
+      {
+        "role": "user",
+        "content":prompt
+      }
+    ]
+  })
+});
 
   const data = await res.json();
   return data.choices[0].message.content;

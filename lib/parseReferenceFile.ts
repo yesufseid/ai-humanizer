@@ -1,6 +1,8 @@
 
 import mammoth from "mammoth";
 import * as pdfjsLib from 'pdfjs-dist';
+// Set the workerSrc to the local file
+pdfjsLib.GlobalWorkerOptions.workerSrc = '/pdf.worker.min.mjs';
 
 export async function parseReferenceFile(file: File): Promise<string> {
   console.log(file);

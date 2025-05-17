@@ -47,7 +47,7 @@ export default function Home() {
       const result = await humanizeText({
         aiText,
         referenceFile,
-        topic: !referenceFile ? topic : undefined,
+        userSample:topic,
       })
 
       setHumanizedText(result.humanizedText)
@@ -138,16 +138,15 @@ export default function Home() {
                   </div>
 
                   <div className="space-y-2">
-                    <Label htmlFor="topic">Or Enter a Topic</Label>
-                    <Input
+                    <Label htmlFor="topic">Enter Sample writing style</Label>
+                    <Textarea
                       id="topic"
-                      placeholder="e.g., Climate change, Marketing strategies"
+                      placeholder="Paste your AI-generated text here..."
                       value={topic}
                       onChange={(e) => setTopic(e.target.value)}
-                      disabled={!!referenceFile}
                     />
                     <p className="text-xs text-muted-foreground">
-                      We'll find relevant human-written content on this topic
+                      We'll use the sample writing style to rewrite the content  
                     </p>
                   </div>
                 </div>

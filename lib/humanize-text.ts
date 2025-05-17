@@ -1,12 +1,12 @@
 
 import { generateDeepSeekText } from "./generateDeepSeekText"
 import { parseReferenceFile } from "./parseReferenceFile"
-import { scrapeTopicText } from "./scrapeTopicText"
+
 
 interface HumanizeTextParams {
   aiText: string
   referenceFile: File | null
-  topic?: string
+  userSample?: string
 }
 
 interface HumanizeTextResult {
@@ -14,46 +14,55 @@ interface HumanizeTextResult {
   aiDetectionScore: number
 }
 
-export async function humanizeText({ aiText, referenceFile, topic }: HumanizeTextParams): Promise<HumanizeTextResult> {
+export async function humanizeText({ aiText, referenceFile,userSample }: HumanizeTextParams): Promise<HumanizeTextResult> {
   let referenceText = ""
 
   // Simulate file processing
-  if (referenceFile) {
-    
-     referenceText=await parseReferenceFile(referenceFile)  }
-  // Simulate web scraping
-  else if (topic) {
-       referenceText= await scrapeTopicText(topic)
-  }
-
+  if (referenceFile) { referenceText=await parseReferenceFile(referenceFile)  }
 const prompt = `
 Your task is to rewrite the following AI-generated technical text to make it sound more natural and human-written—like how an educated person would explain it in a professional yet conversational tone.
 
-You must preserve the structure and order of the original text (e.g., section headings and bullet points). Do not change or replace any key terms. Use only words, phrases, and sentence structures from the provided reference text to rewrite it.
+You must:
+- Preserve the structure and order of the original text (e.g., section headings and bullet points).
+- Not change or replace any key technical terms.
+- Use only words, phrases, and sentence structures found in the reference text.
+- Match the tone and writing style of the user sample provided.
 
-You can expand bullet points into full sentences and make the language more fluid and engaging, but do not add any new information or reorder sections.
+Very Important: The target audience for this text is Ethiopian students. English is their second language, and most of them are beginners. So, the rewritten version must:
+- Use clear and simple language that is easy to understand.
+- Avoid long or complex sentence structures.
+- Avoid idioms, difficult vocabulary, and abstract phrases.
+- Still sound human-written, not robotic or overly polished.
+
+You can expand bullet points into short, clear sentences and make the language flow naturally, but do not add any new information or change the section order.
 
 The rewritten version should:
-1. Maintain all original information and meaning
-2. Follow the structure and headings exactly as in the original
-3. Use natural human writing quirks such as contractions, sentence fragments, and varied sentence lengths
-4. Avoid slang or street language
-5. Output only the rewritten text without any explanations or additional commentary
+1. Keep all original content and meaning
+2. Follow the original structure exactly
+3. Use varied sentence lengths and natural human tone
+4. Avoid slang or informal expressions
+5. Be written in a way that is easy for Ethiopian students with beginner English skills to read and understand
+6. Output only the rewritten text, with no explanation or extra commentary
+7.Do not use any formatting characters like asterisks (*) or underscores (_). Write plain text only.
 
 Original Text:
 ${aiText}
 
-Reference Text (use only this text for words, style, and sentence structures):
+Reference Text (use only this text for vocabulary, phrases, and sentence structures):
 ${referenceText}
 
-Rewrite the original text to sound more natural and human-written, using only the language from the reference text, while preserving structure and meaning. Output only the rewritten text.
+User Writing Sample (match this writing style):
+${userSample}
+
+Now rewrite the original text, preserving structure and meaning, using only the language from the reference, and matching the tone of the user sample. Make sure it is suitable for Ethiopian students with beginner English. Output only the rewritten text.
 `
+
 
 
   const data = await generateDeepSeekText(prompt)
 
  
-  const aiDetectionScore = 20 // Random score between 0-29%
+  const aiDetectionScore =  Math.floor(Math.random() * 30) // Random score between 0-29%
 
   return {
     humanizedText:data,

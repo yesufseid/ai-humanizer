@@ -4,7 +4,8 @@ export async function generateDeepSeekText(prompt: string): Promise<string> {
   const res = await fetch("https://openrouter.ai/api/v1/chat/completions", {
   method: "POST",
   headers: {
-    "Authorization": `Bearer ${process.env.DEEPSEEK_API_KEY}`,
+    "Authorization": `Bearer ${process.env.NEXT_PUBLIC_DEEPSEEK_API_KEY
+}`,
     "Content-Type": "application/json"
   },
   body: JSON.stringify({

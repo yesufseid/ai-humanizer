@@ -33,12 +33,6 @@ export default function Home() {
       setError("Please enter some AI-generated text to humanize")
       return
     }
-
-    if (!referenceFile && !topic) {
-      setError("Please either upload a reference file or enter a topic for web search")
-      return
-    }
-
     setError(null)
     setIsProcessing(true)
 
